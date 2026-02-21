@@ -27,6 +27,7 @@ if (!collections.includes('employees')) {
       $jsonSchema: {
         bsonType: 'object',
         required: [
+          'eid',
           'first_name',
           'last_name',
           'email',
@@ -39,6 +40,7 @@ if (!collections.includes('employees')) {
           'updated_at'
         ],
         properties: {
+          eid: { bsonType: 'string' },
           first_name: { bsonType: 'string' },
           last_name: { bsonType: 'string' },
           email: { bsonType: 'string' },
@@ -58,6 +60,7 @@ if (!collections.includes('employees')) {
 
 dbRef.users.createIndex({ username: 1 }, { unique: true, name: 'unique_username' });
 dbRef.users.createIndex({ email: 1 }, { unique: true, name: 'unique_user_email' });
+dbRef.employees.createIndex({ eid: 1 }, { unique: true, name: 'unique_employee_eid' });
 dbRef.employees.createIndex({ email: 1 }, { unique: true, name: 'unique_employee_email' });
 
 print(`Initialized database: ${dbName}`);

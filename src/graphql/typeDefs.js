@@ -5,13 +5,18 @@ const typeDefs = gql`
     id: ID!
     username: String!
     email: String!
-    password: String!
     created_at: String!
     updated_at: String!
   }
 
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
   type Employee {
     id: ID!
+    eid: String!
     first_name: String!
     last_name: String!
     email: String!
@@ -25,13 +30,14 @@ const typeDefs = gql`
     updated_at: String!
   }
 
-  input CreateUserInput {
+  input SignupInput {
     username: String!
     email: String!
     password: String!
   }
 
-  input CreateEmployeeInput {
+  input AddEmployeeInput {
+    eid: String!
     first_name: String!
     last_name: String!
     email: String!
@@ -43,7 +49,7 @@ const typeDefs = gql`
     employee_photo: String
   }
 
-  input UpdateEmployeeInput {
+  input UpdateEmployeeByEidInput {
     first_name: String
     last_name: String
     email: String
@@ -57,17 +63,20 @@ const typeDefs = gql`
 
   type Query {
     health: String!
-    users: [User!]!
-    userByUsername(username: String!): User
-    employees: [Employee!]!
-    employeeById(id: ID!): Employee
+    login(username_or_email: String!, password: String!): AuthPayload!
+    getAllEmployees: [Employee!]!
+    searchEmployeeByEid(eid: String!): Employee
+    searchEmployeeByDesignationOrDepartment(
+      designation: String
+      department: String
+    ): [Employee!]!
   }
 
   type Mutation {
-    createUser(input: CreateUserInput!): User!
-    createEmployee(input: CreateEmployeeInput!): Employee!
-    updateEmployee(id: ID!, input: UpdateEmployeeInput!): Employee!
-    deleteEmployee(id: ID!): Boolean!
+    signup(input: SignupInput!): User!
+    addEmployee(input: AddEmployeeInput!): Employee!
+    updateEmployeeByEid(eid: String!, input: UpdateEmployeeByEidInput!): Employee!
+    deleteEmployeeByEid(eid: String!): Boolean!
   }
 `;
 
