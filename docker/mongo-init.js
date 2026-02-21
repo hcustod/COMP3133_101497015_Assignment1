@@ -1,4 +1,4 @@
-const dbName = 'comp3133_StudentID_Assigment1';
+const dbName = 'comp3133_101497015_Assigment1';
 const dbRef = db.getSiblingDB(dbName);
 
 const collections = dbRef.getCollectionNames();
