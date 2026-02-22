@@ -46,7 +46,7 @@ const typeDefs = gql`
     salary: Float!
     date_of_joining: String!
     department: String!
-    employee_photo: String
+    employee_photo: String!
   }
 
   input UpdateEmployeeByEidInput {
