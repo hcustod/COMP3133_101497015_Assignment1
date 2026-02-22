@@ -6,6 +6,7 @@ const { ApolloServer } = require('apollo-server-express');
 
 const connectDB = require('./config/db');
 require('./config/cloudinary');
+const upload = require('./config/multer');
 
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
@@ -21,9 +22,11 @@ const startServer = async () => {
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
+    context: ({ req }) => ({ req }),
   });
 
   await apolloServer.start();
+  app.use('/graphql', upload.single('employee_photo'));
   apolloServer.applyMiddleware({ app, path: '/graphql' });
 
   app.get('/health', (_req, res) => {

@@ -1,11 +1,24 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs/promises');
 
 const User = require('../models/User');
 const Employee = require('../models/Employee');
 const cloudinary = require('../config/cloudinary');
 
-const uploadEmployeePhoto = async (photoSource) => {
+const uploadEmployeePhoto = async ({ photoSource, uploadedFile }) => {
+  if (uploadedFile?.path) {
+    try {
+      const uploadResult = await cloudinary.uploader.upload(uploadedFile.path, {
+        folder: 'comp3133/assignment1/employees',
+      });
+
+      return uploadResult.secure_url;
+    } finally {
+      await fs.unlink(uploadedFile.path).catch(() => {});
+    }
+  }
+
   if (!photoSource) {
     throw new Error('employee_photo is required');
   }
@@ -77,8 +90,11 @@ const resolvers = {
       const user = new User({ ...input, email: input.email.toLowerCase() });
       return user.save();
     },
-    addEmployee: async (_parent, { input }) => {
-      const photoUrl = await uploadEmployeePhoto(input.employee_photo);
+    addEmployee: async (_parent, { input }, context) => {
+      const photoUrl = await uploadEmployeePhoto({
+        photoSource: input.employee_photo,
+        uploadedFile: context?.req?.file,
+      });
       const employeePayload = {
         ...input,
         email: input.email.toLowerCase(),
@@ -89,7 +105,7 @@ const resolvers = {
       const employee = new Employee(employeePayload);
       return employee.save();
     },
-    updateEmployeeByEid: async (_parent, { eid, input }) => {
+    updateEmployeeByEid: async (_parent, { eid, input }, context) => {
       const employeePayload = { ...input };
       if (input.date_of_joining) {
         employeePayload.date_of_joining = new Date(input.date_of_joining);
@@ -97,10 +113,11 @@ const resolvers = {
       if (input.email) {
         employeePayload.email = input.email.toLowerCase();
       }
-      if (input.employee_photo) {
-        employeePayload.employee_photo = await uploadEmployeePhoto(
-          input.employee_photo
-        );
+      if (context?.req?.file || input.employee_photo) {
+        employeePayload.employee_photo = await uploadEmployeePhoto({
+          photoSource: input.employee_photo,
+          uploadedFile: context?.req?.file,
+        });
       }
 
       const employee = await Employee.findOneAndUpdate({ eid }, employeePayload, {
