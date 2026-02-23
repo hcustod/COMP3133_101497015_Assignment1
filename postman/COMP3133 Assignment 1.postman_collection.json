@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "f10bb4d8-f06d-4f90-95a3-8ccf8dbbead6",
-    "name": "COMP3133 Assignment 1 W2026",
+    "_postman_id": "9d661f3d-ab23-498d-8a23-6546c520b6d8",
+    "name": "COMP3133 Assignment 1",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "GraphQL API tests for COMP3133 Assignment 1"
+    "_exporter_id": "48823239",
+    "_collection_link": "https://go.postman.co/collection/48823239-9d661f3d-ab23-498d-8a23-6546c520b6d8?source=collection_link"
   },
   "item": [
     {
@@ -18,14 +19,24 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"query\": \"mutation Signup($input: SignupInput!) { signup(input: $input) { id username email created_at updated_at } }\",\n  \"variables\": {\n    \"input\": {\n      \"username\": \"student_01\",\n      \"email\": \"student01@example.com\",\n      \"password\": \"Pass1234\"\n    }\n  }\n}"
+          "raw": "{\n  \"query\": \"mutation Signup($input: SignupInput!) { signup(input: $input) { id username email created_at updated_at } }\",\n  \"variables\": {\n    \"input\": {\n      \"username\": \"student_02\",\n      \"email\": \"student02@example.com\",\n      \"password\": \"asdf1234\"\n    }\n  }\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         }
-      }
+      },
+      "response": []
     },
     {
       "name": "Login",
@@ -42,11 +53,21 @@
           "raw": "{\n  \"query\": \"query Login($username_or_email: String!, $password: String!) { login(username_or_email: $username_or_email, password: $password) { token user { id username email } } }\",\n  \"variables\": {\n    \"username_or_email\": \"student_01\",\n    \"password\": \"Pass1234\"\n  }\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         }
-      }
+      },
+      "response": []
     },
     {
       "name": "Get All Employees",
@@ -63,14 +84,24 @@
           "raw": "{\n  \"query\": \"query { getAllEmployees { eid first_name last_name email gender designation salary date_of_joining department employee_photo created_at updated_at } }\"\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         }
-      }
+      },
+      "response": []
     },
     {
-      "name": "Add Employee (Image URL fallback)",
+      "name": "Add Employee - Image URL",
       "request": {
         "method": "POST",
         "header": [
@@ -84,14 +115,24 @@
           "raw": "{\n  \"query\": \"mutation AddEmployee($input: AddEmployeeInput!) { addEmployee(input: $input) { eid first_name last_name employee_photo } }\",\n  \"variables\": {\n    \"input\": {\n      \"eid\": \"E1001\",\n      \"first_name\": \"John\",\n      \"last_name\": \"Doe\",\n      \"email\": \"john.doe@example.com\",\n      \"gender\": \"Male\",\n      \"designation\": \"Developer\",\n      \"salary\": 5000,\n      \"date_of_joining\": \"2026-01-01\",\n      \"department\": \"Engineering\",\n      \"employee_photo\": \"https://images.unsplash.com/photo-1500648767791-00dcc994a43e\"\n    }\n  }\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         }
-      }
+      },
+      "response": []
     },
     {
-      "name": "Add Employee (Multipart file via multer)",
+      "name": "Add Employee - File via multer",
       "request": {
         "method": "POST",
         "header": [],
@@ -111,17 +152,27 @@
             {
               "key": "0",
               "type": "file",
-              "src": ""
+              "value": ""
             }
           ]
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         },
         "description": "In Postman, set the file for form-data key `0` before sending."
-      }
+      },
+      "response": []
     },
     {
       "name": "Search Employee by EID",
@@ -138,11 +189,21 @@
           "raw": "{\n  \"query\": \"query SearchByEid($eid: String!) { searchEmployeeByEid(eid: $eid) { eid first_name last_name email designation department employee_photo } }\",\n  \"variables\": {\n    \"eid\": \"E1001\"\n  }\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         }
-      }
+      },
+      "response": []
     },
     {
       "name": "Update Employee by EID",
@@ -159,11 +220,21 @@
           "raw": "{\n  \"query\": \"mutation UpdateEmployee($eid: String!, $input: UpdateEmployeeByEidInput!) { updateEmployeeByEid(eid: $eid, input: $input) { eid designation department salary } }\",\n  \"variables\": {\n    \"eid\": \"E1001\",\n    \"input\": {\n      \"designation\": \"Senior Developer\",\n      \"department\": \"Engineering\",\n      \"salary\": 7000\n    }\n  }\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         }
-      }
+      },
+      "response": []
     },
     {
       "name": "Delete Employee by EID",
@@ -180,14 +251,24 @@
           "raw": "{\n  \"query\": \"mutation DeleteEmployee($eid: String!) { deleteEmployeeByEid(eid: $eid) }\",\n  \"variables\": {\n    \"eid\": \"E1001\"\n  }\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         }
-      }
+      },
+      "response": []
     },
     {
-      "name": "Search by Designation OR Department",
+      "name": "Search by Designation or Department",
       "request": {
         "method": "POST",
         "header": [
@@ -201,17 +282,21 @@
           "raw": "{\n  \"query\": \"query SearchByDesignation($designation: String, $department: String) { searchEmployeeByDesignationOrDepartment(designation: $designation, department: $department) { eid first_name designation department } }\",\n  \"variables\": {\n    \"designation\": \"Developer\",\n    \"department\": null\n  }\n}"
         },
         "url": {
-          "raw": "{{baseUrl}}/graphql",
-          "host": ["{{baseUrl}}"],
-          "path": ["graphql"]
+          "raw": "http://127.0.0.1:4000/graphql",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "4000",
+          "path": [
+            "graphql"
+          ]
         }
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:4000"
+      },
+      "response": []
     }
   ]
 }
