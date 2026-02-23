@@ -14,10 +14,10 @@ if (!collections.includes('users')) {
           email: { bsonType: 'string' },
           password: { bsonType: 'string' },
           created_at: { bsonType: 'date' },
-          updated_at: { bsonType: 'date' }
-        }
-      }
-    }
+          updated_at: { bsonType: 'date' },
+        },
+      },
+    },
   });
 }
 
@@ -37,7 +37,7 @@ if (!collections.includes('employees')) {
           'date_of_joining',
           'department',
           'created_at',
-          'updated_at'
+          'updated_at',
         ],
         properties: {
           eid: { bsonType: 'string' },
@@ -51,16 +51,19 @@ if (!collections.includes('employees')) {
           department: { bsonType: 'string' },
           employee_photo: { bsonType: ['string', 'null'] },
           created_at: { bsonType: 'date' },
-          updated_at: { bsonType: 'date' }
-        }
-      }
-    }
+          updated_at: { bsonType: 'date' },
+        },
+      },
+    },
   });
 }
 
 dbRef.users.createIndex({ username: 1 }, { unique: true, name: 'unique_username' });
 dbRef.users.createIndex({ email: 1 }, { unique: true, name: 'unique_user_email' });
 dbRef.employees.createIndex({ eid: 1 }, { unique: true, name: 'unique_employee_eid' });
-dbRef.employees.createIndex({ email: 1 }, { unique: true, name: 'unique_employee_email' });
+dbRef.employees.createIndex(
+  { email: 1 },
+  { unique: true, name: 'unique_employee_email' }
+);
 
 print(`Initialized database: ${dbName}`);

@@ -1,12 +1,13 @@
 require('dotenv').config();
+require('./config/cloudinary');
 
 const express = require('express');
 const cors = require('cors');
 const { ApolloServer } = require('apollo-server-express');
 
 const connectDB = require('./config/db');
-require('./config/cloudinary');
 const upload = require('./config/multer');
+const parseGraphQLMultipart = require('./middleware/graphqlMultipart');
 
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/resolvers');
@@ -26,7 +27,7 @@ const startServer = async () => {
   });
 
   await apolloServer.start();
-  app.use('/graphql', upload.single('employee_photo'));
+  app.use('/graphql', upload.any(), parseGraphQLMultipart);
   apolloServer.applyMiddleware({ app, path: '/graphql' });
 
   app.get('/health', (_req, res) => {
